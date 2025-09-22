@@ -1,36 +1,43 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# Overview
 
-First, run the development server:
+A full-stack Todo app built with Next.js 15 (App Router), React 19, Prisma, SQLite, Tailwind.
+CRUD is implemented with Server Actions; revalidatePath('/') keeps UI and DB in sync.
+Server Component for the page; Client Component for each row.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Live Demo: <your Vercel URL>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Frontend: Next.js 15, React 19, TailwindCSS
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Data: Prisma ORM, SQLite (switchable to Postgres)
 
-## Learn More
+Runtime: Node ≥ 18.18 (20 LTS recommended)
 
-To learn more about Next.js, take a look at the following resources:
+Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Add / Toggle / Delete / Rename todos
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Type-safe Prisma queries & dev-time connection reuse
 
-## Deploy on Vercel
+# Quick Start
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+npm i
+npx prisma migrate dev --name init
+npm run dev        # http://localhost:3000
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+#Production
+npm run build && npm start
+
+.env:
+DATABASE_URL="file:./prisma/dev.db"
+
+# Troubleshooting
+
+No effect on Edit/Save → 'use server' at the top of actions.ts, 'use client' at top of TodoRow.tsx, type="submit" on Save.
+
+Unexpected any → remove manual annotations; keep Prisma default output; npx prisma generate.
+
+IDE cannot find npm → load nvm in shell / set Node interpreter.
